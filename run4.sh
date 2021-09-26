@@ -1,6 +1,6 @@
 #!/bin/bash
 
-music_folder="music2"
+music_folder="music"
 image_path="images/1.jpg"
 fontsize=36
 video_w=1920
