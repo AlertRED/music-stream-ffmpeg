@@ -19,7 +19,7 @@ fps=25
     file_name="${file_name%.*}"
     file_name=$(sed -r 's/^[0-9]+.//' <<< $file_name)
 
-    ffmpeg -f image2 -loop 1 -i "$image_path" -re -i "$music_path"  \
+    ffmpeg -loop 1 -re -i "$image_path" -i "$music_path"  \
     -vf "format=yuv420p, scale=$video_w:$video_h, drawtext=text='$file_name':x=$offset_w:y=$video_h-$fontsize-$offset_h:fontsize=$fontsize:fontcolor=$fontcolor:bordercolor=$bordercolor:borderw=1:" \
     -c:v libx264 -b:v 2000k -maxrate 2000k -bufsize 4000k -g 3 -c:a aac -preset veryfast \
     -f flv rtmp://a.rtmp.youtube.com/live2/0f7g-ytdd-qv55-rcbm-drgw

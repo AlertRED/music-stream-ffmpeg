@@ -11,7 +11,7 @@ offset_w=15
 offset_h=15
 fontcolor="#ffffff@1.0"
 bordercolor="#000000@1.0"
-fps=24
+fps=25
 
 # ffmpeg -loop 1 -framerate 24 \
 # -i "$image_path" -c:v libx264 -preset veryslow -tune stillimage -pix_fmt yuv420p -t 5 -crf 24 -movflags +faststart "$video_path"
@@ -30,13 +30,14 @@ do
 
 
     ffmpeg \
+    -loop 1 \
     -re \
-    -stream_loop -1 \
+    -framerate $fps \
     -i "$video_path" \
     -thread_queue_size 512 \
     -i "$music_path" \
-    -loop -1 \
-    -c:v copy \
-    -c:a aac -threads $(nproc) -ar 44100 -b:a 192k -bufsize 512k -pix_fmt yuv420p -f flv rtmp://a.rtmp.youtube.com/live2/kj5h-3mkp-gsxh-xw7s-3emz
+    -c:v libx264 -preset ultrafast -b:v 1500k \
+    -c:a aac -threads $(nproc) -ar 44100 -b:a 192k -bufsize 512k -pix_fmt yuv420p \
+    -f flv rtmp://a.rtmp.youtube.com/live2/kj5h-3mkp-gsxh-xw7s-3emz
   done
 done
