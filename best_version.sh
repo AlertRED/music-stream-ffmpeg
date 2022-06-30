@@ -31,9 +31,9 @@ do
     # https://stackoverflow.com/questions/33684845/using-ffmpeg-to-stream-my-webcams-video-to-youtube
     
     ffmpeg -re -loop 1 -i "$image_path" -i "$music_path" \
-    -c:v libx264 -preset ultrafast -b:v 5000k -minrate 4500k -maxrate 6000k -bufsize 6500k -pix_fmt yuv420p -g $g \
+    -c:v libx264 -preset ultrafast -tune zerolatency -b:v 5000k -minrate 4500k -maxrate 6000k -bufsize 2M -pix_fmt yuv420p -g $g \
     -vf "scale=$video_w:$video_h, drawtext=text='$file_name':x=$offset_w:y=$video_h-$fontsize-$offset_h:fontsize=$fontsize:fontcolor=$fontcolor:bordercolor=$bordercolor:borderw=1:" \
     -c:a aac -b:a 192k -ac 2 -ar 44100 \
-    -f flv rtmp://a.rtmp.youtube.com/live2/kj5h-3mkp-gsxh-xw7s-3emz
+    -f flv rtmp://a.rtmp.youtube.com/live2/5f68-6rp4-g6gy-8cc7-ae11
   done
 done
