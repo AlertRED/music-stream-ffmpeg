@@ -4,11 +4,13 @@ music_folder="music"
 image_path="images/1.jpg"
 video_path="output.mp4"
 
-fontsize=36
+title="lofi ambient"
+fontfile="fonts/ReenieBeanie-Regular.ttf"
+fontsize=72
 video_w=1920
 video_h=1080
-offset_w=15
-offset_h=15
+offset_w=$video_w/2-4*$fontsize/2
+offset_h=$fontsize
 fontcolor="#ffffff@1.0"
 bordercolor="#000000@1.0"
 fps=2
@@ -20,8 +22,8 @@ echo "Clip prepared"
 
 music_paths=()
 
-#while true;
-#do
+while true;
+do
   for music_path in $music_folder/**/*.*;
   do
     file_name=$(basename "$music_path")
@@ -37,9 +39,9 @@ music_paths=()
 
     ffmpeg -hide_banner -re -loop 1 -framerate $fps -i "$image_path" -i "concat:$music_paths_str" -shortest \
     -c:v libx264 -preset fast -tune zerolatency -b:v 4000k -minrate 3000k -maxrate 5000k -bufsize 2M -pix_fmt yuv420p -g $g \
-    -vf "scale=$video_w:$video_h, drawtext=text='$file_name':x=$offset_w:y=$video_h-$fontsize-$offset_h:fontsize=$fontsize:fontcolor=$fontcolor:bordercolor=$bordercolor:borderw=1:" \
+    -vf "scale=$video_w:$video_h, drawtext=text='$title':x=$offset_w:y=$video_h-$fontsize-$offset_h:fontsize=$fontsize:fontfile=$fontfile:fontcolor=$fontcolor:bordercolor=$bordercolor:borderw=1:" \
     -c:a aac -b:a 192k -ac 2 -ar 44100 \
     -f flv rtmp://a.rtmp.youtube.com/live2/fc25-t64w-zhka-pwth-693h \
     -loglevel info
 #  done
-#done
+done
