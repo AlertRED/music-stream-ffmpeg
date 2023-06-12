@@ -15,25 +15,22 @@ fontcolor="#ffffff@1.0"
 bordercolor="#000000@1.0"
 fps=2
 g=2
-# ffmpeg -loop 1 -framerate 24 \
-# -i "$image_path" -c:v libx264 -preset veryslow -tune stillimage -pix_fmt yuv420p -t 5 -crf 24 -movflags +faststart "$video_path"
 
-echo "Clip prepared"
 
 music_paths=()
 
 while true;
 do
-  for music_path in $music_folder/**/*.*;
-  do
-    file_name=$(basename "$music_path")
-    file_name="${file_name%.*}"
-    file_name=$(sed -r 's/^[0-9]+.//' <<< $file_name)
+    for music_path in $music_folder/**/*.*;
+    do
+        file_name=$(basename "$music_path")
+        file_name="${file_name%.*}"
+        file_name=$(sed -r 's/^[0-9]+.//' <<< $file_name)
 
-    music_paths+=("$music_path")
-  done
+        music_paths+=("$music_path")
+    done
 
-  music_paths_str=$(printf "%s|" "${music_paths[@]}")
+    music_paths_str=$(printf "%s|" "${music_paths[@]}")
 
     # https://stackoverflow.com/questions/33684845/using-ffmpeg-to-stream-my-webcams-video-to-youtube
 
@@ -43,5 +40,4 @@ do
     -c:a aac -b:a 192k -ac 2 -ar 44100 \
     -f flv rtmp://a.rtmp.youtube.com/live2/fc25-t64w-zhka-pwth-693h \
     -loglevel info
-#  done
 done
